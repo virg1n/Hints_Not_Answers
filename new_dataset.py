@@ -1,4 +1,4 @@
-# python file.py \
+# python new_dataset.py \
 #   --dataset_name "tatsu-lab/alpaca" \
 #   --model_name "Qwen/Qwen2.5-14B-Instruct-GPTQ-Int8" \
 #   --base_dir "./derived_alpaca_dataset"

@@ -1,0 +1,14 @@
+{
+  "bf16": { "enabled": true },
+  "zero_optimization": {
+    "stage": 3,
+    "overlap_comm": true,
+    "contiguous_gradients": true,
+    "reduce_bucket_size": 5e7,
+    "stage3_gather_16bit_weights_on_model_save": true
+  },
+  "checkpoint": {"load_optimizer_states": false, "save_optimizer_states": false},
+  "train_batch_size": 4,
+  "gradient_accumulation_steps": 1,
+  "gradient_clipping": 1.0
+}

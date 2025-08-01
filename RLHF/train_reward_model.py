@@ -1,3 +1,5 @@
+# CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch   --num_processes 4   --multi_gpu   --mixed_precision bf16   reward_model-coder3B.py
+
 import torch
 
 import json
@@ -8,7 +10,7 @@ from datasets import Dataset
 from trl import RewardTrainer, RewardConfig
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-DATA_FILE = Path("socratic_dataset.json")
+DATA_FILE = Path("result-qm3.json")
 raw_data = json.loads(DATA_FILE.read_text())
 
 BASE_MODEL_NAME = "Qwen/Qwen2.5-Coder-3B"
@@ -72,21 +74,21 @@ model = AutoModelForSequenceClassification.from_pretrained(
     pad_token_id=tokenizer.pad_token_id,
 )
 
-
-model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
-model.to('cuda')
-
 cfg = RewardConfig(
     output_dir="./rm_qwen-coder3B",
     per_device_train_batch_size=1,
     gradient_accumulation_steps=1,
     num_train_epochs=1,
     learning_rate=1e-5,
+    bf16=True,
+    deepspeed="ds_config.json",
     overwrite_output_dir=True,
-    save_steps=1000,
-    save_total_limit=1,
+    save_steps=500,
+    save_total_limit=2,
     save_only_model=True
 )
+
+model.gradient_checkpointing_enable(gradient_checkpointing_kwargs={"use_reentrant": False})
 
 trainer = RewardTrainer(
     model=model,
@@ -94,6 +96,7 @@ trainer = RewardTrainer(
     train_dataset=train_ds,
     processing_class=tokenizer,
 )
+
 
 trainer.train()
 trainer.save_model("./rm_qwen-coder3B_final")

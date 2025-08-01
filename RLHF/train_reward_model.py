@@ -10,7 +10,7 @@ from datasets import Dataset
 from trl import RewardTrainer, RewardConfig
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
-DATA_FILE = Path("result-qm3.json")
+DATA_FILE = Path("socratic_dataset.json")
 raw_data = json.loads(DATA_FILE.read_text())
 
 BASE_MODEL_NAME = "Qwen/Qwen2.5-Coder-3B"

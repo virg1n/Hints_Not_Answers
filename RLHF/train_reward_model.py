@@ -1,4 +1,4 @@
-# CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch   --num_processes 4   --multi_gpu   --mixed_precision bf16   reward_model-coder3B.py
+# CUDA_VISIBLE_DEVICES=0,1,2,3 accelerate launch   --num_processes 4   --multi_gpu   --mixed_precision bf16   train_reward_model.py
 
 import torch
 
